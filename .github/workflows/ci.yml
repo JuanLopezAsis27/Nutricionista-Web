@@ -1,0 +1,40 @@
+name: CI
+
+# Valida que el proyecto compile y pase el chequeo de tipos en cada PR
+# y en cada push que no sea a main (main se valida dentro del deploy).
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (incluye TypeScript)
+        run: npm run build
+        env:
+          # Variables públicas; configurables como "Repository variables".
+          # Si están vacías, el sitio usa el contenido de ejemplo igual.
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
+          NEXT_PUBLIC_SANITY_API_VERSION: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION || '2024-10-01' }}
+          NEXT_TELEMETRY_DISABLED: "1"

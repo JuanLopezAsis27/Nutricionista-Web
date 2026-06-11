@@ -200,6 +200,67 @@ docker image prune -f      # limpia imágenes viejas
 
 ---
 
+## 7-bis. CI/CD automático con GitHub Actions (recomendado)
+
+El repo incluye dos workflows en `.github/workflows/`:
+
+- **`ci.yml`** — en cada Pull Request y push a ramas que no sean `main`: instala
+  dependencias y corre `npm run build` (compila + chequea TypeScript). Sirve de red
+  de seguridad antes de mergear.
+- **`deploy.yml`** — en cada push a `main` (o manual desde la pestaña *Actions*):
+  1. Construye la imagen Docker y la publica en **GHCR**
+     (`ghcr.io/juanlopezasis27/nutricionista`).
+  2. Entra por SSH a la VPS, hace `docker compose -f docker-compose.prod.yml pull`
+     y `up -d` con la nueva imagen. **No construye en la VPS.**
+
+> Con este flujo, el `docker-compose.prod.yml` corre la imagen ya construida (las
+> variables `NEXT_PUBLIC_*` quedan compiladas dentro de la imagen en CI, así que la
+> VPS no necesita configurarlas en runtime).
+
+### Configurar el repositorio (una sola vez)
+
+En GitHub → **Settings → Secrets and variables → Actions**:
+
+**Variables** (públicas):
+
+| Nombre | Valor |
+|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | `3im7vzff` |
+| `NEXT_PUBLIC_SANITY_DATASET` | `production` *(opcional)* |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | `2024-10-01` *(opcional)* |
+
+**Secrets** (privados, para el deploy por SSH):
+
+| Nombre | Descripción |
+|---|---|
+| `VPS_HOST` | IP o dominio de la VPS |
+| `VPS_USER` | usuario SSH (ej. `nicolas`) |
+| `VPS_SSH_KEY` | **clave privada** SSH (contenido completo) con acceso a ese usuario |
+| `VPS_PORT` | puerto SSH *(opcional, default 22)* |
+| `VPS_APP_DIR` | ruta del repo en la VPS *(opcional, default `~/nutricionista-web`)* |
+
+> Generá un par de llaves dedicado para el deploy (`ssh-keygen -t ed25519 -f deploy_key`),
+> agregá la **pública** a `~/.ssh/authorized_keys` del usuario en la VPS y cargá la
+> **privada** en el secret `VPS_SSH_KEY`.
+
+### Preparar la VPS (una sola vez)
+
+```bash
+git clone https://github.com/JuanLopezAsis27/Nutricionista.git ~/nutricionista-web
+cd ~/nutricionista-web
+# el usuario debe estar en el grupo docker (ver sección 2)
+```
+
+No hace falta `.env` para producción (las variables van en la imagen). A partir de
+ahí, **cada push a `main` despliega solo**. Para forzar un deploy manual: pestaña
+*Actions → Build & Deploy → Run workflow*.
+
+> Si el repositorio es **privado**, agregá una *deploy key* de solo lectura a la VPS
+> para que el `git pull` del workflow funcione (o el pull se omite y solo se actualiza
+> la imagen).
+
+---
+
 ## 8. Backups y monitoreo
 
 - **Contenido**: Sanity guarda el contenido en su nube con historial de versiones.
