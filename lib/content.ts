@@ -1,4 +1,5 @@
 import type { SanityImageSource } from "@sanity/image-url";
+import type { PortableTextBlock } from "@portabletext/types";
 
 // ---- Types shared across the site ----
 
@@ -200,3 +201,101 @@ export const fallbackContent: SiteContent = {
     },
   ],
 };
+
+// ---- Blog ----
+
+export type PostListItem = {
+  title: string;
+  slug: string;
+  excerpt: string;
+  coverImage: SanityImageSource | null;
+  tags: string[];
+  publishedAt: string;
+};
+
+export type Post = PostListItem & {
+  body: PortableTextBlock[];
+};
+
+let blockKey = 0;
+/** Minimal helper to build Portable Text blocks for the fallback posts. */
+function block(
+  text: string,
+  style: "normal" | "h2" | "h3" | "blockquote" = "normal",
+): PortableTextBlock {
+  blockKey += 1;
+  return {
+    _type: "block",
+    _key: `fb-${blockKey}`,
+    style,
+    markDefs: [],
+    children: [{ _type: "span", _key: `fb-${blockKey}-0`, text, marks: [] }],
+  };
+}
+
+export const fallbackPosts: Post[] = [
+  {
+    title: "Nutrir el cerebro: el rol de la alimentación en la salud mental",
+    slug: "nutrir-el-cerebro",
+    excerpt:
+      "Qué comemos influye en cómo pensamos y sentimos. Te cuento cómo cuidar un órgano vital a través del plato.",
+    coverImage: null,
+    tags: ["Salud", "Cerebro"],
+    publishedAt: "2026-05-20T10:00:00.000Z",
+    body: [
+      block("Por qué la comida también alimenta la mente", "h2"),
+      block(
+        "El cerebro consume cerca del 20% de la energía que ingerimos cada día. Lo que ponemos en el plato impacta directamente en nuestra concentración, memoria y estado de ánimo.",
+      ),
+      block(
+        "Una alimentación rica en vegetales, frutas, grasas saludables y omega-3 ayuda a preservar un órgano vital y a prevenir o disminuir el riesgo de enfermedades neurodegenerativas.",
+      ),
+      block("Pequeños cambios, grandes resultados", "h3"),
+      block(
+        "No se trata de dietas perfectas, sino de hábitos sostenibles: sumar color al plato, hidratarse bien y priorizar alimentos reales por sobre los ultraprocesados.",
+      ),
+    ],
+  },
+  {
+    title: "5 mitos sobre las dietas que conviene dejar atrás",
+    slug: "mitos-sobre-dietas",
+    excerpt:
+      "Saltar comidas, demonizar los carbohidratos, los 'detox'… Repasamos creencias frecuentes que no se sostienen con evidencia.",
+    coverImage: null,
+    tags: ["Mitos", "Educación alimentaria"],
+    publishedAt: "2026-04-08T10:00:00.000Z",
+    body: [
+      block(
+        "Alrededor de la comida circulan muchas ideas que parecen verdades absolutas pero que la ciencia no respalda. Repasemos algunas.",
+      ),
+      block("1. Saltar comidas adelgaza", "h3"),
+      block(
+        "Comer menos veces no garantiza bajar de peso y suele aumentar el hambre, llevando a peores elecciones más tarde.",
+      ),
+      block("2. Los carbohidratos engordan", "h3"),
+      block(
+        "Los carbohidratos de calidad —legumbres, granos integrales, frutas— son parte de una alimentación equilibrada.",
+      ),
+    ],
+  },
+  {
+    title: "Cómo armar un plato saludable en 3 pasos",
+    slug: "plato-saludable-en-3-pasos",
+    excerpt:
+      "Una guía simple para componer comidas equilibradas sin pesar todo ni complicarte la vida.",
+    coverImage: null,
+    tags: ["Práctico", "Planificación"],
+    publishedAt: "2026-03-02T10:00:00.000Z",
+    body: [
+      block(
+        "El método del plato es una herramienta visual para equilibrar tus comidas sin cuentas complicadas.",
+      ),
+      block("La mitad del plato: vegetales", "h3"),
+      block("Cuanto más color y variedad, mejor. Aportan fibra, vitaminas y saciedad."),
+      block("Un cuarto: proteínas", "h3"),
+      block("Carnes magras, huevo, legumbres o pescado para mantener y reparar tejidos."),
+      block("Un cuarto: carbohidratos de calidad", "h3"),
+      block("Preferí versiones integrales y porciones acordes a tu actividad."),
+    ],
+  },
+];

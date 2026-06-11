@@ -1,4 +1,4 @@
-import { getSiteContent } from "@/lib/queries";
+import { getSiteContent, getPosts } from "@/lib/queries";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { WhatsAppFab } from "@/components/whatsapp-fab";
@@ -6,10 +6,14 @@ import { Hero } from "@/components/sections/hero";
 import { About } from "@/components/sections/about";
 import { Services } from "@/components/sections/services";
 import { Experience } from "@/components/sections/experience";
+import { BlogTeaser } from "@/components/sections/blog-teaser";
 import { Contact } from "@/components/sections/contact";
 
 export default async function Home() {
-  const { settings, home, services, credentials } = await getSiteContent();
+  const [{ settings, home, services, credentials }, posts] = await Promise.all([
+    getSiteContent(),
+    getPosts(),
+  ]);
 
   return (
     <>
@@ -19,6 +23,7 @@ export default async function Home() {
         <About home={home} settings={settings} />
         <Services home={home} services={services} />
         <Experience home={home} credentials={credentials} />
+        <BlogTeaser posts={posts} />
         <Contact home={home} settings={settings} />
       </main>
       <Footer settings={settings} />

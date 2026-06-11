@@ -1,10 +1,11 @@
 import type { SiteSettings } from "./content";
 
 export const NAV_ITEMS = [
-  { href: "#sobre-mi", label: "Sobre mí" },
-  { href: "#servicios", label: "Servicios" },
-  { href: "#experiencia", label: "Experiencia" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "/#sobre-mi", label: "Sobre mí" },
+  { href: "/#servicios", label: "Servicios" },
+  { href: "/#experiencia", label: "Experiencia" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#contacto", label: "Contacto" },
 ];
 
 export function whatsappLink(whatsapp: string, message?: string) {

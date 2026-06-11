@@ -4,7 +4,10 @@ import { client } from "@/sanity/lib/client";
 import { sanityEnabled } from "@/sanity/env";
 import {
   fallbackContent,
+  fallbackPosts,
   type Credential,
+  type Post,
+  type PostListItem,
   type Service,
   type ServiceIcon,
   type SiteContent,
@@ -104,5 +107,54 @@ export async function getSiteContent(): Promise<SiteContent> {
   } catch {
     // Network/config issues should never take the site down.
     return fallbackContent;
+  }
+}
+
+const POSTS_QUERY = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc){
+  title, "slug": slug.current, excerpt, coverImage, tags, publishedAt
+}`;
+
+const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
+  title, "slug": slug.current, excerpt, coverImage, tags, publishedAt, body
+}`;
+
+function normalizeList(posts: PostListItem[] | null): PostListItem[] {
+  return (posts ?? []).map((p) => ({
+    title: p.title,
+    slug: p.slug,
+    excerpt: p.excerpt ?? "",
+    coverImage: p.coverImage ?? null,
+    tags: p.tags ?? [],
+    publishedAt: p.publishedAt,
+  }));
+}
+
+export async function getPosts(): Promise<PostListItem[]> {
+  if (!sanityEnabled) return fallbackPosts;
+  try {
+    const posts = await client.fetch<PostListItem[]>(
+      POSTS_QUERY,
+      {},
+      { next: { revalidate: 60 } },
+    );
+    const list = normalizeList(posts);
+    return list.length > 0 ? list : fallbackPosts;
+  } catch {
+    return fallbackPosts;
+  }
+}
+
+export async function getPost(slug: string): Promise<Post | null> {
+  const fromFallback = fallbackPosts.find((p) => p.slug === slug) ?? null;
+  if (!sanityEnabled) return fromFallback;
+  try {
+    const post = await client.fetch<Post | null>(
+      POST_QUERY,
+      { slug },
+      { next: { revalidate: 60 } },
+    );
+    return post ?? fromFallback;
+  } catch {
+    return fromFallback;
   }
 }

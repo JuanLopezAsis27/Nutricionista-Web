@@ -1,0 +1,38 @@
+# Despliegue de la web de presentación.
+#
+# Compose lee automáticamente un archivo `.env` (de Compose, NO el .env.local de
+# Next) ubicado junto a este archivo. Creá ese `.env` en la VPS con:
+#
+#   NEXT_PUBLIC_SANITY_PROJECT_ID=3im7vzff
+#   NEXT_PUBLIC_SANITY_DATASET=production
+#   NEXT_PUBLIC_SANITY_API_VERSION=2024-10-01
+#
+# Luego:  docker compose up -d --build
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SANITY_PROJECT_ID: ${NEXT_PUBLIC_SANITY_PROJECT_ID}
+        NEXT_PUBLIC_SANITY_DATASET: ${NEXT_PUBLIC_SANITY_DATASET:-production}
+        NEXT_PUBLIC_SANITY_API_VERSION: ${NEXT_PUBLIC_SANITY_API_VERSION:-2024-10-01}
+    image: nutricionista-web:latest
+    container_name: nutricionista-web
+    restart: unless-stopped
+    # Se publica SOLO en localhost: Nginx (en el host) hace de reverse proxy.
+    # Así el puerto de la app no queda expuesto a internet.
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      NODE_ENV: production
+    # Límites de recursos (ajustá según tu VPS)
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
