@@ -75,14 +75,14 @@ export type SiteContent = {
 
 export const fallbackContent: SiteContent = {
   settings: {
-    brandName: "Nicolás López Asís",
+    brandName: "Nicolás López Asis",
     role: "Licenciado en Nutrición · M.N. 0000",
     logoWord: "Nutrición",
-    phone: "+54 9 11 0000-0000",
-    email: "hola@nicolaslopezasis.com",
-    address: "Av. Siempreviva 742, Buenos Aires",
-    whatsapp: "5491100000000",
-    instagramUrl: "https://instagram.com/",
+    phone: "5493815370052",
+    email: "nicolasis14@hotmail.com",
+    address: "Laprida 763, San Miguel de Tucumán",
+    whatsapp: "5493815370052",
+    instagramUrl: "https://www.instagram.com/lic.nicolopezasis/",
     bookingUrl: "",
   },
   home: {

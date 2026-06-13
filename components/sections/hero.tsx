@@ -130,7 +130,7 @@ export function Hero({
 
 /** Graphic stand-in shown until a real hero photo is uploaded in Sanity. */
 function HeroPlaceholder() {
-  const items = ["🥦", "🍎", "🥕", "🫐", "🥑", "🍊"];
+  const items = ["🥦", "🍎", "🥕", "🥝", "🥑", "🍊"];
   return (
     <div className="relative grid h-full w-full place-items-center bg-gradient-to-br from-coral-soft/60 to-surface">
       <div className="grid grid-cols-3 gap-5 text-4xl">
