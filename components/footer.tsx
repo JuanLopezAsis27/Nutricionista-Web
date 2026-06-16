@@ -61,6 +61,12 @@ export function Footer({ settings }: { settings: SiteSettings }) {
               <MapPin size={16} className="mt-0.5 text-coral" />
               <span>{settings.address}</span>
             </li>
+            {settings.address2 && (
+              <li className="flex items-start gap-2.5">
+                <MapPin size={16} className="mt-0.5 text-coral" />
+                <span>{settings.address2}</span>
+              </li>
+            )}
             {settings.instagramUrl && (
               <li className="flex items-center gap-2.5">
                 <InstagramIcon size={16} className="text-coral" />

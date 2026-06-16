@@ -38,6 +38,7 @@ export type SiteSettings = {
   phone: string;
   email: string;
   address: string;
+  address2?: string;
   whatsapp: string;
   instagramUrl: string;
   bookingUrl: string;

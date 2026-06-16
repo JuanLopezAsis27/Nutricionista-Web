@@ -111,14 +111,14 @@ export function Hero({
             </div>
 
             {/* Floating stat badge */}
-            <div className="absolute -left-2 bottom-10 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 shadow-[var(--shadow-card)]">
+            {/* <div className="absolute -left-2 bottom-10 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3 shadow-[var(--shadow-card)]">
               <span className="font-display text-2xl font-extrabold text-coral">
                 {home.aboutStats[0]?.value ?? "+10"}
               </span>
               <span className="max-w-[7rem] text-xs leading-tight text-ink-soft">
                 {home.aboutStats[0]?.label ?? "años de experiencia"}
               </span>
-            </div>
+            </div> */}
 
             <ArrowDownBadge className="animate-float absolute -bottom-3 right-12 h-12 w-12" />
           </div>

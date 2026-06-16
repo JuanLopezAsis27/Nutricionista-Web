@@ -16,7 +16,7 @@ import {
 // Pull every piece of content the landing page needs in a single round-trip.
 const CONTENT_QUERY = `{
   "settings": *[_type == "siteSettings"][0]{
-    brandName, role, logoWord, phone, email, address, whatsapp, instagramUrl, bookingUrl
+    brandName, role, logoWord, phone, email, address, address2, whatsapp, instagramUrl, bookingUrl
   },
   "home": *[_type == "homePage"][0]{
     heroEyebrow, heroTitle, heroHighlight, heroSubtitle, heroBullets, heroImage,
@@ -71,6 +71,7 @@ export async function getSiteContent(): Promise<SiteContent> {
         phone: pick(s.phone as string, fb.settings.phone),
         email: pick(s.email as string, fb.settings.email),
         address: pick(s.address as string, fb.settings.address),
+        address2: pick(s.address2 as string, fb.settings.address2),
         whatsapp: pick(s.whatsapp as string, fb.settings.whatsapp),
         instagramUrl: pick(s.instagramUrl as string, fb.settings.instagramUrl),
         bookingUrl: pick(s.bookingUrl as string, fb.settings.bookingUrl),

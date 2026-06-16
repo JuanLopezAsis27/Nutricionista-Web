@@ -32,6 +32,15 @@ export function Contact({
       label: "Consultorio",
       value: settings.address,
     },
+    ...(settings.address2
+      ? [
+          {
+            icon: MapPin,
+            label: "Consultorio 2",
+            value: settings.address2,
+          },
+        ]
+      : []),
     ...(settings.instagramUrl
       ? [
           {
@@ -115,7 +124,7 @@ export function Contact({
             <Reveal delay={2}>
               <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-canvas px-4 py-2 text-sm text-ink-soft">
                 <Clock size={16} className="text-coral" />
-                Lunes a viernes · 9 a 19 h · Presencial y online
+                Presencial y online
               </p>
             </Reveal>
           </div>

@@ -50,6 +50,12 @@ export const siteSettings = defineType({
       group: "contact",
     }),
     defineField({
+      name: "address2",
+      title: "Dirección del consultorio 2",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
       name: "whatsapp",
       title: "WhatsApp (número con código de país)",
       type: "string",
