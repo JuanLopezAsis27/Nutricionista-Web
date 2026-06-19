@@ -18,7 +18,6 @@ export function BlogTeaser({ posts }: { posts: PostListItem[] }) {
             eyebrow="Blog"
             title="Últimas"
             highlight="notas"
-            intro="Contenido para cuidarte mejor, basado en evidencia."
           />
           <Reveal>
             <Link

@@ -15,12 +15,12 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteName = "Lic. Nicolás López Asís";
+const siteName = "Lic. Nicolás López Asis";
 const siteDescription =
   "Licenciado en Nutrición. Acompañamiento profesional para cuidar tu salud a través de la alimentación: consultas, planes personalizados y nutrición clínica y deportiva.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nicolaslopezasis.com"),
+  metadataBase: new URL("https://www.licnicolopezasis.com.ar/"),
   title: {
     default: `${siteName} | Nutrición que cuida tu cerebro y tu cuerpo`,
     template: `%s | ${siteName}`,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     "nutrición clínica",
     "nutrición deportiva",
     "plan nutricional",
-    "Nicolás López Asís",
+    "Nicolás López Asis",
   ],
   openGraph: {
     title: siteName,

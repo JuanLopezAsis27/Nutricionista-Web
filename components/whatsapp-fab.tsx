@@ -9,7 +9,7 @@ export function WhatsAppFab({ whatsapp }: { whatsapp: string }) {
     <a
       href={whatsappLink(
         whatsapp,
-        "¡Hola! Quisiera consultar sobre los servicios de nutrición.",
+        "¡Hola! Quisiera reservar una consulta",
       )}
       target="_blank"
       rel="noopener noreferrer"

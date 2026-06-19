@@ -115,8 +115,7 @@ export const fallbackContent: SiteContent = {
     servicesIntro:
       "Cada consulta se diseña a tu medida. Estas son las áreas en las que puedo acompañarte:",
     experienceTitle: "Formación y",
-    experienceIntro:
-      "Una trayectoria construida sobre la actualización constante y el trabajo clínico.",
+    experienceIntro:"",
     contactTitle: "Empecemos",
     contactIntro:
       "Reservá tu primera consulta o escribime para resolver cualquier duda. Estoy para ayudarte.",

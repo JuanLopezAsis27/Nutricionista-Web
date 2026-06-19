@@ -14,6 +14,10 @@ export function Contact({
   home: SiteContent["home"];
   settings: SiteContent["settings"];
 }) {
+  const addresses = [settings.address, settings.address2].filter(
+    (a): a is string => Boolean(a),
+  );
+
   const details = [
     {
       icon: Phone,
@@ -29,18 +33,9 @@ export function Contact({
     },
     {
       icon: MapPin,
-      label: "Consultorio",
-      value: settings.address,
+      label: addresses.length > 1 ? "Consultorios" : "Consultorio",
+      values: addresses,
     },
-    ...(settings.address2
-      ? [
-          {
-            icon: MapPin,
-            label: "Consultorio 2",
-            value: settings.address2,
-          },
-        ]
-      : []),
     ...(settings.instagramUrl
       ? [
           {
@@ -95,9 +90,20 @@ export function Contact({
                         <span className="block text-xs uppercase tracking-wide text-muted">
                           {d.label}
                         </span>
-                        <span className="block text-sm font-medium text-ink">
-                          {d.value}
-                        </span>
+                        {d.values ? (
+                          d.values.map((v) => (
+                            <span
+                              key={v}
+                              className="block text-sm font-medium text-ink"
+                            >
+                              {v}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="block text-sm font-medium text-ink">
+                            {d.value}
+                          </span>
+                        )}
                       </span>
                     </span>
                   );
@@ -122,10 +128,13 @@ export function Contact({
             </Reveal>
 
             <Reveal delay={2}>
-              <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-canvas px-4 py-2 text-sm text-ink-soft">
-                <Clock size={16} className="text-coral" />
-                Presencial y online
-              </p>
+              <strong>
+                <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-canvas px-4 py-2 text-md text-ink-soft">
+                  <Clock size={23} className="text-coral" />
+                  Presencial y online
+                </p>
+              </strong>
+              
             </Reveal>
           </div>
 
